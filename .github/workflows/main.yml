@@ -38,14 +38,18 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
         
-    - uses: azure/setup-kubectl@v1
+    #- uses: azure/setup-kubectl@v1
     - name: Deploy to AKS
       run: |
         az account set --subscription a2ba9ff7-3658-4acd-bbdd-279961ec4fac
         az aks get-credentials --resource-group demo --name mercy
         kubectl apply -f ./deployment.yml -n boutique-app
     
+    # Adding a kubeconfig file as a secret in Github seems not to work for me. Seems the file gets messed up in the secret
+    # I had to add the kubeconfig file in the repository (very unethical) and point the kubectl command to the file
+    # I finally got to use the az command for AKS to set current context in /home/runner/.kube/config on the host agent
+    # and was able to run kubectl commands on the AKS cluster
     
     #- name: kubectl deploy to cluster
     #  run: |
-    #    kubectl apply -f ./deployment.yml -n boutique-app --kubeconfig mercyAKS
+    #    kubectl apply -f ./deployment.yml -n boutique-app --kubeconfig kubeconfigfile
