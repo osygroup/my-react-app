@@ -38,7 +38,7 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
         
-    #- uses: azure/setup-kubectl@v1
+    #- uses: azure/setup-kubectl@v1   # Not needed. The Github host agent has kubectl installed already
     - name: Deploy to AKS
       run: |
         az account set --subscription a2ba9ff7-3658-4acd-bbdd-279961ec4fac
