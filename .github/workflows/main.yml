@@ -33,7 +33,19 @@ jobs:
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
       
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
     - uses: azure/setup-kubectl@v1
-    - name: kubectl deploy to cluster
+    - name: Deploy to AKS
       run: |
-        kubectl apply -f ./deployment.yml -n boutique-app --kubeconfig mercyAKS
+        az account set --subscription a2ba9ff7-3658-4acd-bbdd-279961ec4fac
+        az aks get-credentials --resource-group demo --name mercy
+        kubectl apply -f ./deployment.yml -n boutique-app
+    
+    
+    #- name: kubectl deploy to cluster
+    #  run: |
+    #    kubectl apply -f ./deployment.yml -n boutique-app --kubeconfig mercyAKS
