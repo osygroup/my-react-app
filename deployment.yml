@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: mycicd 
-          image: ${{ secrets.DOCKERHUB_USERNAME }}/my-react-app:latest  #osygroup/my-react-app:latest
+          image: osygroup/my-react-app:latest  #using ${{ secrets.DOCKERHUB_USERNAME }} in place of 'osygroup' won't work (the deployment file doesn't inherit variables)
           ports:
           - containerPort: 80
 
