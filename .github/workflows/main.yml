@@ -43,8 +43,9 @@ jobs:
       run: |
         az account set --subscription a2ba9ff7-3658-4acd-bbdd-279961ec4fac
         az aks get-credentials --resource-group demo --name mercy
-        kubectl create namespace my-react-app
-        kubectl apply -f ./deployment.yml -n boutique-app
+        kubectl get namespace -oname | grep "namespace/my-react-app" \
+            || kubectl create namespace my-react-app
+        kubectl apply -f ./deployment.yml -n my-react-app
     
     # Adding a kubeconfig file as a secret in Github seems not to work for me. Seems the file gets messed up in the secret
     # I had to add the kubeconfig file in the repository (very unethical) and point the kubectl command to the file
